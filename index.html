@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Field Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 10px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      font-size: 24px;
+    }
+    #fields {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+    input[type="number"],
+    input[type="text"],
+    .text0 {
+      flex: 1;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4caf50;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    textarea {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      resize: vertical;
+    }
+    #copyButton {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Field Converter</h1>
+
+  <div class="input-group">
+    <input type="text" id="text0" class="text0" placeholder="Enter text">
+  </div>
+
+  <div id="fields">
+    <!-- Default fields -->
+    <div class="input-group">
+      <input type="number" id="number1" placeholder="No." value="1">
+      <input type="text" id="text1" placeholder="Enter text">
+    </div>
+    <div class="input-group">
+      <input type="number" id="number2" placeholder="No." value="2">
+      <input type="text" id="text2" placeholder="Enter text">
+    </div>
+    <div class="input-group">
+      <input type="number" id="number3" placeholder="No." value="3">
+      <input type="text" id="text3" placeholder="Enter text">
+    </div>
+    <div class="input-group">
+      <input type="number" id="number4" placeholder="No." value="9">
+      <input type="text" id="text4" placeholder="Enter text">
+    </div>
+    <div class="input-group">
+      <input type="number" id="number5" placeholder="No." value="10">
+      <input type="text" id="text5" placeholder="Enter text">
+    </div>
+    <div class="input-group">
+      <input type="number" id="number6" placeholder="No." value="4">
+      <input type="text" id="text6" placeholder="Enter text">
+    </div>
+    <!-- Additional fields will be added here -->
+  </div>
+  <button onclick="addField()">Add Field</button>
+  <button onclick="convertAll()">Convert All</button>
+
+  <div>
+    <textarea id="convertedText" rows="4" cols="40" readonly></textarea><br>
+    <button id="copyButton" onclick="copyToClipboard()">Copy</button>
+  </div>
+
+  <script>
+    let fieldCount = 6;
+
+    function addField() {
+      fieldCount++;
+      const fieldDiv = document.createElement('div');
+      fieldDiv.classList.add('input-group');
+      fieldDiv.innerHTML = `
+        <input type="number" id="number${fieldCount}" placeholder="No.">
+        <input type="text" id="text${fieldCount}" placeholder="Enter text">
+      `;
+      document.getElementById('fields').appendChild(fieldDiv);
+    }
+
+    function convertAll() {
+      let combinedText = '';
+      const text0 = document.getElementById('text0').value;
+      if (text0.trim() !== '') {
+        combinedText += `${text0.trim()}||`;
+      }
+      for (let i = 1; i <= fieldCount; i++) {
+        const number = document.getElementById(`number${i}`).value;
+        const text = document.getElementById(`text${i}`).value;
+        combinedText += `||${number}||${text}`;
+      }
+      combinedText += '||'; // Adding || at the end
+      document.getElementById('convertedText').value = combinedText;
+    }
+
+    function copyToClipboard() {
+      const textarea = document.getElementById('convertedText');
+      textarea.select();
+      document.execCommand('copy');
+      alert('Copied to clipboard!');
+    }
+  </script>
+</body>
+</html>
