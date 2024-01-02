@@ -1,27 +1,35 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Page</title>
+  <title>URL Parameter Iframe</title>
 </head>
 <body>
-  <iframe id="myFrame" src="https://html5.gamedistribution.com/b56adab8c63e42459be0c12e1245c1de/?gd_sdk_referrer_url=https://crazygames.com"></iframe>
+
+  <div id="iframeContainer">
+    <!-- This is where the iframe will be displayed -->
+  </div>
 
   <script>
-    // Function to get URL parameters
+    // Function to get the URL parameter
     function getUrlParameter(name) {
-      name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
       var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
       var results = regex.exec(location.search);
       return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
 
-    // Check if the URL parameter exists and modify iframe source
-    var newSrc = getUrlParameter('https://krunker.io/');
-    if (newSrc !== '') {
-      document.getElementById('myFrame').src = 'https://html5.gamedistribution.com/b56adab8c63e42459be0c12e1245c1de/?gd_sdk_referrer_url=https://crazygames.com';
+    // Get the value of the 'url' parameter
+    var urlParam = getUrlParameter('url');
+
+    // Display the URL in an iframe
+    if (urlParam !== '') {
+      var iframe = document.createElement('iframe');
+      iframe.src = urlParam;
+      iframe.style.width = '100%';
+      iframe.style.height = '100vh';
+      document.getElementById('iframeContainer').appendChild(iframe);
     }
   </script>
+
 </body>
 </html>
